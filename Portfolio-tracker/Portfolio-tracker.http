@@ -1,0 +1,6 @@
+@Portfolio_tracker_HostAddress = http://localhost:5267
+
+GET {{Portfolio_tracker_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
