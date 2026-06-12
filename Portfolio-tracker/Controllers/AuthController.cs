@@ -27,7 +27,7 @@ namespace Portfolio_tracker.Controllers
             {
                 FullName = request.FullName,
                 Email = request.Email,
-                PasswordHash = request.Password,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 CreateAt = DateTime.Now
             };
 
