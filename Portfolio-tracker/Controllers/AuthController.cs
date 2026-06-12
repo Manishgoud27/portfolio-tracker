@@ -18,6 +18,11 @@ namespace Portfolio_tracker.Controllers
         [HttpPost("register")]
         public IActionResult Register(RegisterRequestDto request)
         {
+            if(_context.User.Any(x => x.Email == request.Email))
+            {
+                return BadRequest("Email already exits");
+            }
+
             var user = new User
             {
                 FullName = request.FullName,
