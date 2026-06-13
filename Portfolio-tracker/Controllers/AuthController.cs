@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Portfolio_tracker.Data;
 using Portfolio_tracker.DTOs;
 using Portfolio_tracker.Models;
+
 
 namespace Portfolio_tracker.Controllers
 {
@@ -39,6 +41,26 @@ namespace Portfolio_tracker.Controllers
                 Message = "Registration request is working",
                 Data = request
             });
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginRequestDto request)
+        {
+            var user = await _context.User.FirstOrDefaultAsync(x => x.Email == request.Email);
+
+            if(user == null)
+            {
+                return Unauthorized();
+            }
+
+            bool isValid = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
+
+            if (!isValid)
+            {
+                return Unauthorized();
+            }
+
+            return Ok("Login successfull");
         }
     }
 }
